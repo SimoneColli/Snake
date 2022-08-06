@@ -9,8 +9,33 @@
 </head>
 <body>
     
-    <div class="grid"></div>
-
+    <main class="flexCenter">
+        <div class="grid" id="grid">
+        
+        </div>
+        <div class="controlPanel flexCenter">
+            <input type="number" name="gridSizeInput" id="gridSizeInput" class="gridSizeInput" value="5" min="5" max="40">
+            <div class="keysContainer leftKeys">
+                <div class="fakeKey"></div>
+                <div class="key keyUp flexCenter">
+                    <ion-icon name="arrow-up"></ion-icon>
+                </div>
+                <div class="fakeKey"></div>
+                <div class="key keyLeft flexCenter">
+                    <ion-icon name="arrow-back"></ion-icon>
+                </div>
+                <div class="key keyDown flexCenter">
+                    <ion-icon name="arrow-down"></ion-icon>
+                </div>
+                <div class="key keyRight flexCenter">
+                    <ion-icon name="arrow-forward"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- icons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./script.js"></script>
 </body>

@@ -13,3 +13,68 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+main{
+    width: 100%;
+    height: 100%;
+}
+
+
+.grid{
+    background-color: black;
+    display: grid;
+    /* grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr); */
+    grid-column-gap: 1px;
+    grid-row-gap: 1px;
+    width: 700px;
+    height: 700px;
+    border: 5px solid black;
+}
+.cell{
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    /* background-color: lightgray; */
+    /* transition: all linear 0.4s; */
+}
+
+.head{
+    background-color: green;
+}
+.tail{
+    background-color: lightgreen;
+}
+.apple{
+    background-color: red;
+}
+
+.controlPanel{
+    height: 100%;
+    flex-direction: column;
+
+}
+/* keys click */
+
+.keysContainer{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    width: 320px;
+    height: 200px;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+.key, .fakeKey{
+    width: 100%;
+    height: 100%;
+}
+.key{
+    border: 4px solid gray;
+    color: gray;
+    transition: all linear 0.2s;
+    font-size: 24px;
+}
+
