@@ -1,0 +1,15 @@
+*{
+    margin: auto;
+}
+html, body{
+    width: 100%;
+    margin: 0;
+}
+body{
+    height: 100vh;
+}
+.flexCenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
