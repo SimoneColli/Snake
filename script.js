@@ -5,10 +5,12 @@ let fruitCell = [];
 let lastDirection = [0, 0];
 let freeCell = [];
 
+let automove = false;
 let autoMoveTimer = null;
 let clickedWait = 1000;
-let inGame = true;
 
+let inGame = true;
+let toInit = false;
 let diffic = ["very easy", "easy", "medium", "hard", "impossible"];
 let diffPointer = 0;
 
@@ -26,7 +28,9 @@ const addTail = () =>{
     console.log("new tail");
     console.log(coords);
 }
-
+const resetPoints = () =>{
+    $(".fruitNumder").html(0);
+}
 const placeFruit = () => {
     fruitCell.pop();
     fruitCell.pop();
@@ -111,7 +115,10 @@ const checkEnd = () => {
         $(".sizeButton").removeClass("disableFromInteractions");
         $(".difficulty").removeClass("greyColorBorder");
         $(".sizeButton").removeClass("greyColorBorder");
-
+        toInit = true;
+        playerCanMove = false;
+        automove = false;
+        window.clearTimeout(autoMoveTimer); //cancel timeout
     }
 }
 
@@ -131,8 +138,6 @@ const drawContentes = () => {
             }
 
             // console.log(cell);
-            if(gridMatrix[i][j] == 2)
-                $(cell).addClass("head");
             
             if(gridMatrix[i][j] == 1)
                 $(cell).addClass("tail");
@@ -140,10 +145,13 @@ const drawContentes = () => {
             if(gridMatrix[i][j] == 3)
                 $(cell).addClass("apple");
 
+                
+            if(gridMatrix[i][j] == 2)
+                $(cell).addClass("head");
+                
             if(gridMatrix[i][j] != 0)
-                reloadCells.push(cell);
-            
-            if(gridMatrix[i][j] == 0)
+                    reloadCells.push(cell);
+                if(gridMatrix[i][j] == 0)
                 freeCell.push(cell);
         }
     }
@@ -153,15 +161,26 @@ const drawContentes = () => {
 }
 
 const gameInit = () => {
+    resetPoints();
+    resetGrid();
     placeHead();
     placeFruit();
     drawContentes();
+    toInit = false;
+
 }
 
 function randomInteger(max){
     return Math.floor(Math.random() * (max));
 }
 
+const resetGrid = () => {
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            gridMatrix[i][j] = 0;
+        }
+    }
+}
 const updateGridValues = () =>{
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
@@ -218,7 +237,9 @@ const move = (direction) => {
 }
 
 const autoMove = () => {
+    automove = true;
     autoMoveTimer = setTimeout(()=>{
+        console.log(lastDirection);
         move(lastDirection);
     }, clickedWait);
 }
@@ -261,7 +282,12 @@ $(document).ready(() => {
     
     */
     $(".play").click(() => {
+        if(toInit)
+            gameInit();
+        
         playerCanMove = true;
+        inGame = true;
+
         $(".play").addClass("noDisplay");
         $(".stop").removeClass("noDisplay");
 
@@ -273,13 +299,16 @@ $(document).ready(() => {
     });
 
     $(".stop").click(() => {
-        playerCanMove = true;
+        playerCanMove = false;
+        inGame = false;
         $(".play").removeClass("noDisplay");
         $(".stop").addClass("noDisplay");
-        inGame = false;
 
         $(".difficulty").removeClass("disableFromInteractions");
         $(".sizeButton").removeClass("disableFromInteractions");
+        window.clearTimeout(autoMoveTimer); //cancel timeout
+        toInit = true;
+        automove = false;
     });
 
     let playerCanMove = false;
@@ -287,11 +316,11 @@ $(document).ready(() => {
     $(document).keydown((event) => {
 
         if(playerCanMove == true && (event.key == "ArrowUp" || event.key == "w")){
-            window.clearTimeout(autoMoveTimer); //cancel timeout
             autoMoveTimer = null;
             $(".keyUp").css("border-color", "red").css("color", "red");
-            move([-1, 0]);
-            
+            lastDirection = [-1, 0];
+            if(!automove)
+                autoMove();
             setTimeout(() => {
                 $(".keyUp").css("border-color", "grey").css("color", "grey");
             }, 1000)
@@ -300,11 +329,11 @@ $(document).ready(() => {
         }
 
         if(playerCanMove == true && (event.key == "ArrowRight" || event.key == "d")){
-            window.clearTimeout(autoMoveTimer); //cancel timeout
             autoMoveTimer = null;
             $(".keyRight").css("border-color", "red").css("color", "red");
-            move([0, 1]);
-            
+            lastDirection = [0, 1];
+            if(!automove)
+                autoMove();
             setTimeout(() => {
                 $(".keyRight").css("border-color", "grey").css("color", "grey");
             }, 1000)
@@ -313,10 +342,11 @@ $(document).ready(() => {
         }
 
         if(playerCanMove == true && (event.key == "ArrowDown" || event.key == "s")){
-            window.clearTimeout(autoMoveTimer); //cancel timeout
             autoMoveTimer = null;
             $(".keyDown").css("border-color", "red").css("color", "red");
-            move([1, 0]);
+            lastDirection = [1, 0];
+            if(!automove)
+                autoMove();
             setTimeout(() => {
                 $(".keyDown").css("border-color", "grey").css("color", "grey");
             }, 1000)
@@ -325,10 +355,11 @@ $(document).ready(() => {
         }
 
         if(playerCanMove == true && (event.key == "ArrowLeft" || event.key == "a")){
-            window.clearTimeout(autoMoveTimer); //cancel timeout
             autoMoveTimer = null;
             $(".keyLeft").css("border-color", "red").css("color", "red");
-            move([0, -1]);
+            lastDirection = [0, -1];
+            if(!automove)
+                autoMove();
             setTimeout(() => {
             $(".keyLeft").css("border-color", "grey").css("color", "grey");
                 }, 1000)

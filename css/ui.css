@@ -52,6 +52,7 @@
     transition: all linear 0.4s;
     flex-direction: row;
     font-weight: 500;
+    color: black;
 }
 
 .play{
@@ -64,7 +65,6 @@
     --difficultyColor: rgba(196, 239, 6, 0.1);
     -webkit-box-shadow: inset 0px 0px 10px 0px var(--difficultyColor);
     box-shadow: inset 0px 0px 10px 0px var(--difficultyColor);
-    
 }
 .stop{
     -webkit-box-shadow: inset 0px 0px 10px 0px rgba(255, 0, 0, 0.1);
