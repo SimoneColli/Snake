@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/ui.css">
+    <link rel="stylesheet" href="./css/snake.css">
     <title>Document</title>
 </head>
 <body>
@@ -15,10 +17,52 @@
         </div>
         <div class="controlPanel flexCenter">
             
-            <p class="fruitNumder">
-                0
-            </p>
-            <input type="number" name="gridSizeInput" id="gridSizeInput" class="gridSizeInput" value="20" min="20" max="40">
+            <div class="fruitLine flexCenter">
+                <p class="fruitDescription">
+                    Points: 
+                </p>
+                <p class="fruitNumder">
+                    0
+                </p>
+            </div>
+            <div class="sizeLine flexCenter">
+                <p class="sizeDescription">
+                    Size:
+                </p>
+                <p class="gridSizeInput">
+                    20
+                </p>
+                <button class="increaseSize sizeButton flexCenter">
+                    <ion-icon name="chevron-up-outline"></ion-icon>
+                </button>
+                <button class="decreaseSize sizeButton flexCenter">
+                    <ion-icon name="chevron-down-outline"></ion-icon>
+                </button>
+            </div>
+
+            <div class="buttonsLine flexCenter">
+                <button class="play flexCenter">
+                    <ion-icon name="play-outline"></ion-icon>
+                    <p>
+                        Play
+                    </p>
+                </button>
+                <button class="stop noDisplay flexCenter">
+                    <ion-icon name="stop-outline"></ion-icon>
+                    <p>
+                        Stop
+                    </p>
+                </button>
+                <button class="difficulty flexCenter">
+                        <ion-icon name="cube-outline"></ion-icon>
+                    <p>
+                        Difficulty:
+                    </p>
+                    <p class="difficultyText">
+                        very easy
+                    </p>
+                </button>
+            </div>
             <div class="keysContainer leftKeys">
                 <div class="fakeKey"></div>
                 <div class="key keyUp flexCenter">
@@ -36,9 +80,9 @@
                 </div>
             </div>
         </div>
+
     </main>
 
-    
     <!-- icons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

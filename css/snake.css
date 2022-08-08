@@ -1,0 +1,28 @@
+.grid{
+    background-color: black;
+    display: grid;
+    /* grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr); */
+    grid-column-gap: 1px;
+    grid-row-gap: 1px;
+    width: 700px;
+    height: 700px;
+    border: 5px solid black;
+}
+.cell{
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    /* background-color: lightgray; */
+    /* transition: all linear 0.4s; */
+}
+
+.head{
+    background-color: green;
+}
+.tail{
+    background-color: lightgreen;
+}
+.apple{
+    background-color: red;
+}

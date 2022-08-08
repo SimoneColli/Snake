@@ -3,10 +3,14 @@ let gridMatrix = [];
 let coords = [];
 let fruitCell = [];
 let lastDirection = [0, 0];
+let freeCell = [];
 
 let autoMoveTimer = null;
-let clickedWait = 250;
+let clickedWait = 1000;
 let inGame = true;
+
+let diffic = ["very easy", "easy", "medium", "hard", "impossible"];
+let diffPointer = 0;
 
 const placeHead = () => {
     coords = [];
@@ -27,19 +31,28 @@ const placeFruit = () => {
     fruitCell.pop();
     fruitCell.pop();
 
-    let y = randomInteger(gridSize);
-    let x = randomInteger(gridSize);
+    let y;
+    let x;
 
-    while(gridMatrix[y][x] != 0){
+    if(freeCell.length == 0){
         y = randomInteger(gridSize);
         x = randomInteger(gridSize);
+    
+        while(gridMatrix[y][x] != 0){
+            y = randomInteger(gridSize);
+            x = randomInteger(gridSize);
+        }
+    }else{
+        let pos = freeCell[randomInteger(freeCell.length)];
+        y = pos.split("_")[1];
+        x = pos.split("_")[2];
     }
 
     fruitCell.push(y);
     fruitCell.push(x);
-
     gridMatrix[y][x] = 3;
     console.log("fruit placed");
+
 }
 
 
@@ -59,7 +72,7 @@ const newMatrix = () => {
 
 
 const setGridSize = () => {
-    gridSize = $("#gridSizeInput").val();
+    gridSize = parseInt($(".gridSizeInput").html());
     newMatrix();
     drawGrid();
 }
@@ -89,15 +102,23 @@ const reloadDiv = (cells) => {
 
 const checkEnd = () => {
     console.log("check");
-    if(coords[0][0] < 0 || coords[0][0] < 0 || coords[0][0] > gridSize - 1 || coords[0][1] > gridSize - 1){
+    if(coords[0][0] < 0 || coords[0][1] < 0 || coords[0][0] > gridSize - 1 || coords[0][1] > gridSize - 1){
         inGame = false;
-        // alert("you lost");
-        console.log("lost");
+        $(".play").removeClass("noDisplay");
+        $(".stop").addClass("noDisplay");
+
+        $(".difficulty").removeClass("disableFromInteractions");
+        $(".sizeButton").removeClass("disableFromInteractions");
+        $(".difficulty").removeClass("greyColorBorder");
+        $(".sizeButton").removeClass("greyColorBorder");
+
     }
 }
+
 const drawContentes = () => {
 
     let reloadCells = [];
+    freeCell.splice(0, freeCell.length);
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
             
@@ -121,6 +142,9 @@ const drawContentes = () => {
 
             if(gridMatrix[i][j] != 0)
                 reloadCells.push(cell);
+            
+            if(gridMatrix[i][j] == 0)
+                freeCell.push(cell);
         }
     }
     reloadDiv(reloadCells);
@@ -147,14 +171,12 @@ const updateGridValues = () =>{
     }
     for (let i = 0; i < coords.length; i++) {
         const tmp = coords[i];
-        // console.log(tmp);
 
         if(i == 0)
             gridMatrix[tmp[0]][tmp[1]] = 2;
         else
             gridMatrix[tmp[0]][tmp[1]] = 1;
     }
-    // console.log(gridMatrix);
 }
 
 const fruitCollision = () => {
@@ -205,14 +227,29 @@ $(document).ready(() => {
     setGridSize();
     gameInit();
 
-    $("#gridSizeInput").on("change", () => {
+    $(".increaseSize").click(() => {
+        $(".gridSizeInput").html(parseInt($(".gridSizeInput").html()) + 1);
         setGridSize();
         gameInit();
     });
+    $(".decreaseSize").click(() => {
+        $(".gridSizeInput").html(parseInt($(".gridSizeInput").html()) - 1);
+        setGridSize();
+        gameInit();
+    });
+
+    $(".difficulty").click(() => {
+        if(diffPointer >= diffic.length){
+            diffPointer = 0;
+            clickedWait = 1000;
+        }else{
+            diffPointer++;
+            clickedWait /= 2;
+        }
+
+        $(".difficultyText").html(diffic[diffPointer]);
+    });
     
-
-
-
     /*
     ##     ##  ######  ######## ########     #### ##    ## ########  ##     ## ######## 
     ##     ## ##    ## ##       ##     ##     ##  ###   ## ##     ## ##     ##    ##    
@@ -223,8 +260,29 @@ $(document).ready(() => {
      #######   ######  ######## ##     ##    #### ##    ## ##         #######     ##   
     
     */
-    
-    let playerCanMove = true;
+    $(".play").click(() => {
+        playerCanMove = true;
+        $(".play").addClass("noDisplay");
+        $(".stop").removeClass("noDisplay");
+
+        $(".difficulty").addClass("disableFromInteractions");
+        $(".sizeButton").addClass("disableFromInteractions");
+        $(".difficulty").addClass("greyColorBorder");
+        $(".sizeButton").addClass("greyColorBorder");
+        
+    });
+
+    $(".stop").click(() => {
+        playerCanMove = true;
+        $(".play").removeClass("noDisplay");
+        $(".stop").addClass("noDisplay");
+        inGame = false;
+
+        $(".difficulty").removeClass("disableFromInteractions");
+        $(".sizeButton").removeClass("disableFromInteractions");
+    });
+
+    let playerCanMove = false;
 
     $(document).keydown((event) => {
 
