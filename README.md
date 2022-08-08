@@ -9,3 +9,7 @@ Simple snake game, with:
 
 
 no responsive layout
+
+
+
+icons: https://ionic.io/ionicons
